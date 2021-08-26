@@ -3,23 +3,20 @@ import styled from "styled-components";
 import FooterContent from "../Content";
 
 const FooterContainer = styled.footer`
-    background-color: #414141 ;
+  background-color: #414141;
 
-    @media(min-width:768){
-        display:flex;
-        justify-content: center;
-    }
+  @media (min-width: 768) {
+    display: flex;
+    justify-content: center;
+  }
+`;
 
-`
-
-
-function Footer(){
-    return(
-        <FooterContainer>
-            <FooterContent/>
-
-        </FooterContainer>
-    );
+function Footer() {
+  return (
+    <FooterContainer>
+      <FooterContent />
+    </FooterContainer>
+  );
 }
 
 export default Footer;

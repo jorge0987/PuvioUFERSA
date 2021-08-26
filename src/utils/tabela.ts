@@ -9,87 +9,34 @@ const  dadosChuva = [
   97.5, 21.5, 203.5, 28.0, 47.0, 50.0, 120.0, 53.0, 49.0, 86.0,
 ];
 
-
-
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {  
   h_24() {    
-    console.log(dadosChuva.map(valor => valor *1.14));
-    return dadosChuva.map(valor => valor *1.14);
-    
+    return dadosChuva.map(valor => valor *1.14);    
   },
   h_12() {
     return this.h_24().map(valor => valor *0.85);   
   },
-  h_10() {
-    var p = this.h_24();
-    var h10 = [];
-    var aux = 0;
-    do {
-      h10.push(p[aux] * 0.82);
-      aux += 1;
-    } while (aux < p.length);
-    return h10;
+  h_10() {    
+    return this.h_24().map(valor => valor* 0.82);
   },
-  h_8() {
-    var p = this.h_24();
-    var h8 = [];
-    var aux = 0;
-    do {
-      h8.push(p[aux] * 0.78);
-      aux += 1;
-    } while (aux < p.length);
-    return h8;
+  h_8() {    
+    return  this.h_24().map(valor => valor* 0.78);
   },
   h_6() {
-    var p = this.h_24();
-    var h6 = [];
-    var aux = 0;
-    do {
-      h6.push(p[aux] * 0.72);
-      aux += 1;
-    } while (aux < p.length);
-    return h6;
+    return  this.h_24().map(valor => valor* 0.72);
   },
   h_3() {
-    var p = this.h_24();
-    var h3 = [];
-    var aux = 0;
-    do {
-      h3.push(p[aux] * 0.54);
-      aux += 1;
-    } while (aux < p.length);
-    return h3;
+    return  this.h_24().map(valor => valor* 0.54); 
   },
   h_2() {
-    var p = this.h_24();
-    var h2 = [];
-    var aux = 0;
-    do {
-      h2.push(p[aux] * 0.48);
-      aux += 1;
-    } while (aux < p.length);
-    return h2;
+    return  this.h_24().map(valor => valor* 0.48); 
   },
   h_1() {
-    var p = this.h_24();
-    var h1 = [];
-    var aux = 0;
-    do {
-      h1.push(p[aux] * 0.42);
-      aux += 1;
-    } while (aux < p.length);
-    return h1;
+  return  this.h_24().map(valor => valor* 0.42); 
   },
   h_030() {
-    var p = this.h_1();
-    var h030 = [];
-    var aux = 0;
-    do {
-      h030.push(p[aux] * 0.74);
-      aux += 1;
-    } while (aux < p.length);
-    return h030;
+    return  this.h_1().map(valor => valor* 0.74); 
   },
   h_025() {
     var p = this.h_030();
@@ -326,9 +273,15 @@ export default {
     const  n =  [  20,   30,   40,   50,   60,   70,   80,   90,  100,  150,  200];
     const Yn = [ 0.52, 0.54, 0.54, 0.55, 0.55, 0.55, 0.56, 0.56, 0.56, 0.56, 0.57, 0.57];
     const Sn = [ 1.06, 1.11, 1.14, 1.16, 1.17, 1.19, 1.19, 1.20, 1.21, 1.23, 1.24, 1.28];
-
-
-    return [ n, Yn, Sn ];
+    const P_retorno = [2, 5, 10, 15, 20, 25, 50, 100, 500];
+    const y: any=[];
+    let aux = 0 ,aux2 =0 ;
+    do {      
+       y[aux] = -(Math.log(-Math.log(1-(1/P_retorno[aux]))));
+      console.log(y[aux]);
+      aux+= 1;
+    } while (aux <P_retorno.length);
+    return [ n, Yn, Sn, y ];
   }
   
 

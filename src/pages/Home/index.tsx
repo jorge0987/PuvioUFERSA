@@ -47,8 +47,8 @@ function Home() {
   var [h600min, media600min] = func.h_600min();
   var [h720min, media720min] = func.h_720min();
   var [h1440min, media1440min] = func.h_1440min();
-  var [n,  Yn, Sn] = func.interpolacao();
- 
+  var [n,  Yn, Sn, y] = func.interpolacao();
+  console.log(y)
 
   const desvioPadrao = (lista: any, media: any) => {
     let variancia = lista.reduce(
@@ -425,7 +425,7 @@ function Home() {
         
           <div>
             
-          {n.map((e) =>{
+          {n.map((e:any) =>{
             return (
               <p>{e} <br/> </p>
               );
@@ -434,7 +434,7 @@ function Home() {
             </div>
             <div>
            
-          {Yn.map((e) =>{
+          {Yn.map((e:any) =>{
             return (
               <p>{e} <br/> </p>
               );
@@ -443,16 +443,25 @@ function Home() {
             </div>
             <div>
             
-          {Sn.map((e) =>{
+          {Sn.map((e:any) =>{
             return (
               <p>{e} <br/> </p>
               );
             }
             )}
             </div>
-        </div>      
+            <div>
+            
+            {y.map((e:any) =>{
+              return (
+                <p>{e.toFixed(2)} <br/> </p>
+                );
+              }
+              )}
+              </div>
+        </div>
 
-      {/* {
+       {/* {
                 teste.map((e)=>{
                     return(
                         <table>
