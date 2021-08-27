@@ -9,6 +9,7 @@ const  dadosChuva = [
   97.5, 21.5, 203.5, 28.0, 47.0, 50.0, 120.0, 53.0, 49.0, 86.0,
 ];
 
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {  
   h_24() {    
@@ -269,7 +270,19 @@ export default {
     media1440min = media1440min / aux;
     return [h1440min, media1440min];
   },
-  interpolacao(){
+  interpolacao(MenorSn:any=1.16, MaiorSn:any=1.17, MenorN:any=50, MaiorN:any=60, aux:any=57){
+
+    let D_Sn: any =0, D_N: any= 0;
+    var Resul_Sn: any =0;
+    D_Sn = (MenorSn-MaiorSn);   
+    D_N = (MenorN-MaiorN);
+     console.log(D_N);
+    Resul_Sn = (((MenorN-aux)*D_Sn)+(-D_N*MenorSn))/(-D_N);
+   //Resul_Sn =((-7*(-0.01))+(-(-10 * 1.16)))/(-(-10));
+    
+    return Resul_Sn;
+  },
+  variavel_reduzida(){
     const  n =  [  20,   30,   40,   50,   60,   70,   80,   90,  100,  150,  200];
     const Yn = [ 0.52, 0.54, 0.54, 0.55, 0.55, 0.55, 0.56, 0.56, 0.56, 0.56, 0.57, 0.57];
     const Sn = [ 1.06, 1.11, 1.14, 1.16, 1.17, 1.19, 1.19, 1.20, 1.21, 1.23, 1.24, 1.28];
@@ -282,6 +295,7 @@ export default {
       aux+= 1;
     } while (aux <P_retorno.length);
     return [ n, Yn, Sn, y ];
+
   }
   
 

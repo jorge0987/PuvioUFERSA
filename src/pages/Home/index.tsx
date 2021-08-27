@@ -47,8 +47,10 @@ function Home() {
   var [h600min, media600min] = func.h_600min();
   var [h720min, media720min] = func.h_720min();
   var [h1440min, media1440min] = func.h_1440min();
-  var [n,  Yn, Sn, y] = func.interpolacao();
-  console.log(y)
+  var [n,  Yn, Sn, y] = func.variavel_reduzida();
+  var Resultado = func.interpolacao();
+  console.log(Resultado);
+  //console.log(y);
 
   const desvioPadrao = (lista: any, media: any) => {
     let variancia = lista.reduce(
@@ -413,6 +415,12 @@ function Home() {
           })}
         </div>
       </div>
+      <br />
+      <br />
+      <p>
+        <h3> TABELA DE VARIAVEIS </h3>{" "}
+      </p>
+      <br />
 
       <div></div>
       <div
