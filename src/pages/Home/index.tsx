@@ -49,7 +49,8 @@ function Home() {
   var [h1440min, media1440min] = func.h_1440min();
   var [n,  Yn, Sn, y] = func.variavel_reduzida();
   var Resultado = func.interpolacao();
-  console.log(Resultado);
+  var P_resultante = func.periodo_retorno_resultante();
+  console.log(P_resultante);
   //console.log(y);
 
   const desvioPadrao = (lista: any, media: any) => {
@@ -267,7 +268,6 @@ function Home() {
         <div>
           {media20min}
           <br />
-
           {desvioPadrao(h20min, media20min).toFixed(2)}
           <h3>20min</h3>
           {h20min.map((e: any, index: any) => {

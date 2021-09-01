@@ -270,18 +270,20 @@ export default {
     media1440min = media1440min / aux;
     return [h1440min, media1440min];
   },
+  // Função de interpolação no qual recebe 4 paramentros :
   interpolacao(MenorSn:any=1.16, MaiorSn:any=1.17, MenorN:any=50, MaiorN:any=60, aux:any=57){
 
     let D_Sn: any =0, D_N: any= 0;
     var Resul_Sn: any =0;
     D_Sn = (MenorSn-MaiorSn);   
     D_N = (MenorN-MaiorN);
-     console.log(D_N);
+    // Equação pegada do Excel 
     Resul_Sn = (((MenorN-aux)*D_Sn)+(-D_N*MenorSn))/(-D_N);
    //Resul_Sn =((-7*(-0.01))+(-(-10 * 1.16)))/(-(-10));
     
     return Resul_Sn;
   },
+  // função no qual deixa a variavel reduzida.
   variavel_reduzida(){
     const  n =  [  20,   30,   40,   50,   60,   70,   80,   90,  100,  150,  200];
     const Yn = [ 0.52, 0.54, 0.54, 0.55, 0.55, 0.55, 0.56, 0.56, 0.56, 0.56, 0.57, 0.57];
@@ -296,7 +298,13 @@ export default {
     } while (aux <P_retorno.length);
     return [ n, Yn, Sn, y ];
 
-  }
-  
+  },
+ // Funções para a 3 e 4 tabela respectivas : Tabela de periodo De retorno em milimetros/Hora e a mesma  em milimetros/minuto(para isso sera dividido por 60).
+
+ periodo_retorno_resultante(x:any=104.12 ,Sx:any =49.91 ,Sn:any =1.167,y:any=0.367,yn:any=0.550){
+   
+   var P_resultante = x +(Sx/Sn)*(y-yn);
+   return P_resultante;
+ }
 
 };
