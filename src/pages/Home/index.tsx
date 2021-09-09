@@ -18,6 +18,7 @@ const Button = styled(Link)`
   outline: none;
   font-size: 16px;
 `;
+
 function Home() {
   var h24 = func.h_24();
   var h12 = func.h_12();
@@ -47,10 +48,10 @@ function Home() {
   var [h600min, media600min] = func.h_600min();
   var [h720min, media720min] = func.h_720min();
   var [h1440min, media1440min] = func.h_1440min();
+  
   var [n,  Yn, Sn, y] = func.variavel_reduzida();
   var Resultado = func.interpolacao();
   var P_resultante = func.periodo_retorno_resultante();
-  console.log(P_resultante);
   //console.log(y);
 
   const desvioPadrao = (lista: any, media: any) => {

@@ -1,5 +1,6 @@
-// eslint-disable-next-line import/no-anonymous-default-export
 import { ObjectFlags } from "typescript";
+
+
 const  dadosChuva = [
   //{ ano: 1964, chuva: 114.0 },
   141.0, 118.4, 127.4, 52.4, 90.3, 62.5, 50.3, 65.4, 81.0, 49.6, 124.2,
@@ -10,7 +11,7 @@ const  dadosChuva = [
 ];
 
 
-// eslint-disable-next-line import/no-anonymous-default-export
+
 export default {  
   h_24() {    
     return dadosChuva.map(valor => valor *1.14);    
