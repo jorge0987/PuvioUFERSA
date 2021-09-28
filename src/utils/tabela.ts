@@ -1,44 +1,43 @@
 import { ObjectFlags } from "typescript";
 
-
-const  dadosChuva = [
+const dadosChuva = [
   //{ ano: 1964, chuva: 114.0 },
-  141.0, 118.4, 127.4, 52.4, 90.3, 62.5, 50.3, 65.4, 81.0, 49.6, 124.2,
-  112.0, 44.2, 80.6, 48.0, 47.0, 45.8, 56.4, 56.4, 35.8, 111.0, 111.6, 48.7,
-  37.6, 53.3, 67.0, 45.0, 77.0, 38.6, 19.4, 69.8, 90.0, 65.6, 89.0, 45.0,
-  73.0, 63.0, 50.0, 99.0, 54.0, 96.0, 71.1, 48.5, 65.6, 48.2, 86.6, 137.5,
-  97.5, 21.5, 203.5, 28.0, 47.0, 50.0, 120.0, 53.0, 49.0, 86.0,
+  141.0, 118.4, 127.4, 52.4, 90.3, 62.5, 50.3, 65.4, 81.0, 49.6, 124.2, 112.0,
+  44.2, 80.6, 48.0, 47.0, 45.8, 56.4, 56.4, 35.8, 111.0, 111.6, 48.7, 37.6,
+  53.3, 67.0, 45.0, 77.0, 38.6, 19.4, 69.8, 90.0, 65.6, 89.0, 45.0, 73.0, 63.0,
+  50.0, 99.0, 54.0, 96.0, 71.1, 48.5, 65.6, 48.2, 86.6, 137.5, 97.5, 21.5,
+  203.5, 28.0, 47.0, 50.0, 120.0, 53.0, 49.0, 86.0,
 ];
-
-
-
-export default {  
-  h_24() {    
-    return dadosChuva.map(valor => valor *1.14);    
+const constatesChuva =  [  
+   
+];
+export default {
+  h_24() {
+    return dadosChuva.map((valor) => valor * 1.14);
   },
   h_12() {
-    return this.h_24().map(valor => valor *0.85);   
+    return this.h_24().map((valor) => valor * 0.85);
   },
-  h_10() {    
-    return this.h_24().map(valor => valor* 0.82);
+  h_10() {
+    return this.h_24().map((valor) => valor * 0.82);
   },
-  h_8() {    
-    return  this.h_24().map(valor => valor* 0.78);
+  h_8() {
+    return this.h_24().map((valor) => valor * 0.78);
   },
   h_6() {
-    return  this.h_24().map(valor => valor* 0.72);
+    return this.h_24().map((valor) => valor * 0.72);
   },
   h_3() {
-    return  this.h_24().map(valor => valor* 0.54); 
+    return this.h_24().map((valor) => valor * 0.54);
   },
   h_2() {
-    return  this.h_24().map(valor => valor* 0.48); 
+    return this.h_24().map((valor) => valor * 0.48);
   },
   h_1() {
-  return  this.h_24().map(valor => valor* 0.42); 
+    return this.h_24().map((valor) => valor * 0.42);
   },
   h_030() {
-    return  this.h_1().map(valor => valor* 0.74); 
+    return this.h_1().map((valor) => valor * 0.74);
   },
   h_025() {
     var p = this.h_030();
@@ -258,7 +257,6 @@ export default {
     return [h720min, media720min];
   },
   h_1440min() {
-   
     var p = this.h_24();
     var h1440min = [];
     var aux = 0;
@@ -272,40 +270,59 @@ export default {
     return [h1440min, media1440min];
   },
   // Função de interpolação no qual recebe 4 paramentros :
-  interpolacao(MenorSn:any=1.16, MaiorSn:any=1.17, MenorN:any=50, MaiorN:any=60, aux:any=57){
+  interpolacao(
+    MenorSn: any = 1.16,
+    MaiorSn: any = 1.17,
+    MenorN: any = 50,
+    MaiorN: any = 60,
+    aux: any = 57
+  ) {
+    let D_Sn: any = 0,
+      D_N: any = 0;
+    var Resul_Sn: any = 0;
+    D_Sn = MenorSn - MaiorSn;
+    D_N = MenorN - MaiorN;
+    // Equação pegada do Excel
+    Resul_Sn = ((MenorN - aux) * D_Sn + -D_N * MenorSn) / -D_N;
+    //Resul_Sn =((-7*(-0.01))+(-(-10 * 1.16)))/(-(-10));
 
-    let D_Sn: any =0, D_N: any= 0;
-    var Resul_Sn: any =0;
-    D_Sn = (MenorSn-MaiorSn);   
-    D_N = (MenorN-MaiorN);
-    // Equação pegada do Excel 
-    Resul_Sn = (((MenorN-aux)*D_Sn)+(-D_N*MenorSn))/(-D_N);
-   //Resul_Sn =((-7*(-0.01))+(-(-10 * 1.16)))/(-(-10));
-    
     return Resul_Sn;
   },
   // função no qual deixa a variavel reduzida.
-  variavel_reduzida(){
-    const  n =  [  20,   30,   40,   50,   60,   70,   80,   90,  100,  150,  200];
-    const Yn = [ 0.52, 0.54, 0.54, 0.55, 0.55, 0.55, 0.56, 0.56, 0.56, 0.56, 0.57, 0.57];
-    const Sn = [ 1.06, 1.11, 1.14, 1.16, 1.17, 1.19, 1.19, 1.20, 1.21, 1.23, 1.24, 1.28];
+  variavel_reduzida() {
+    const n = [20, 30, 40, 50, 60, 70, 80, 90, 100, 150, 200];
+    const Yn = [
+      0.52, 0.54, 0.54, 0.55, 0.55, 0.55, 0.56, 0.56, 0.56, 0.56, 0.57, 0.57,
+    ];
+    const Sn = [
+      1.06, 1.11, 1.14, 1.16, 1.17, 1.19, 1.19, 1.2, 1.21, 1.23, 1.24, 1.28,
+    ];
     const P_retorno = [2, 5, 10, 15, 20, 25, 50, 100, 500];
-    const y: any=[];
-    let aux = 0 ,aux2 =0 ;
-    do {      
-       y[aux] = -(Math.log(-Math.log(1-(1/P_retorno[aux]))));
+    const y: any = [];
+    let aux = 0,
+      aux2 = 0;
+    do {
+      y[aux] = -Math.log(-Math.log(1 - 1 / P_retorno[aux]));
       console.log(y[aux]);
-      aux+= 1;
-    } while (aux <P_retorno.length);
-    return [ n, Yn, Sn, y ];
-
+      aux += 1;
+    } while (aux < P_retorno.length);
+    return [n, Yn, Sn, y];
   },
- // Funções para a 3 e 4 tabela respectivas : Tabela de periodo De retorno em milimetros/Hora e a mesma  em milimetros/minuto(para isso sera dividido por 60).
+  // Funções para a 3 e 4 tabela respectivas : Tabela de periodo De retorno em milimetros/Hora e a mesma  em milimetros/minuto(para isso sera dividido por 60).
 
- periodo_retorno_resultante(x:any=104.12 ,Sx:any =49.91 ,Sn:any =1.167,y:any=0.367,yn:any=0.550){
-   
-   var P_resultante = x +(Sx/Sn)*(y-yn);
-   return P_resultante;
- }
+  periodo_retorno_resultante(
+    x: any = 104.12,
+    Sx: any = 49.91,
+    Sn: any = 1.167,
+    y: any = 0.367,
+    yn: any = 0.55
+  ) {
+    var aux = 0;
+    do {
+      aux += 1;
+    } while (aux < Sn.length);
 
+    var P_resultante = x + (Sx / Sn) * (y - yn);
+    return P_resultante;
+  },
 };

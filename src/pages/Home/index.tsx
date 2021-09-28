@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import func from "../../utils/tabela";
 import styled from "styled-components";
 
-
 const Button = styled(Link)`
   width: 100px;
   height: 50px;
@@ -48,11 +47,10 @@ function Home() {
   var [h600min, media600min] = func.h_600min();
   var [h720min, media720min] = func.h_720min();
   var [h1440min, media1440min] = func.h_1440min();
-  
-  var [n,  Yn, Sn, y] = func.variavel_reduzida();
-  var Resultado = func.interpolacao();
-  var P_resultante = func.periodo_retorno_resultante();
-  //console.log(y);
+
+  var [n, Yn, Sn, y] = func.variavel_reduzida();
+  var resul_Sn = func.interpolacao();
+  var [P_resultante] = func.periodo_retorno_resultante(n, Yn, Sn, y, resul_Sn);
 
   const desvioPadrao = (lista: any, media: any) => {
     let variancia = lista.reduce(
@@ -75,20 +73,15 @@ function Home() {
       >
         <div>
           <h3>24h/1dia</h3>
-          
-            {h24.map((e) => {
-              return <p>{e.toFixed(2)}</p>;
-            })}
-         
+
+          {h24.map((e) => {
+            return <p>{e.toFixed(2)}</p>;
+          })}
         </div>
         <div>
           <h3>12h/24h</h3>
           {h12.map((e) => {
-            return (
-              
-                <p>{e.toFixed(2)}</p>
-              
-            );
+            return <p>{e.toFixed(2)}</p>;
           })}
         </div>
         <div>
@@ -228,7 +221,9 @@ function Home() {
         <div>
           {" "}
           <br />
-          {media5min} <br />
+          {n[0] = media5min}
+          {console.log(n[0])}
+          <br />
           {desvioPadrao(h05min, media5min)}
           <h3>05min</h3>
           {h05min.map((e: any, index: any) => {
@@ -430,47 +425,46 @@ function Home() {
           width: "calc(80vw - 80px)",
           justifyContent: "space-between",
         }}
-        >
-        
-          <div>
-            
-          {n.map((e:any) =>{
+      >
+        <div>
+          {n.map((e: any) => {
             return (
-              <p>{e} <br/> </p>
-              );
-            }
-            )}
-            </div>
-            <div>
-           
-          {Yn.map((e:any) =>{
-            return (
-              <p>{e} <br/> </p>
-              );
-            }
-            )}
-            </div>
-            <div>
-            
-          {Sn.map((e:any) =>{
-            return (
-              <p>{e} <br/> </p>
-              );
-            }
-            )}
-            </div>
-            <div>
-            
-            {y.map((e:any) =>{
-              return (
-                <p>{e.toFixed(2)} <br/> </p>
-                );
-              }
-              )}
-              </div>
+              <p>
+                {e} <br />{" "}
+              </p>
+            );
+          })}
         </div>
+        <div>
+          {Yn.map((e: any) => {
+            return (
+              <p>
+                {e} <br />{" "}
+              </p>
+            );
+          })}
+        </div>
+        <div>
+          {Sn.map((e: any) => {
+            return (
+              <p>
+                {e} <br />{" "}
+              </p>
+            );
+          })}
+        </div>
+        <div>
+          {y.map((e: any) => {
+            return (
+              <p>
+                {e.toFixed(2)} <br />{" "}
+              </p>
+            );
+          })}
+        </div>
+      </div>
 
-       {/* {
+      {/* {
                 teste.map((e)=>{
                     return(
                         <table>
