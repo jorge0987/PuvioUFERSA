@@ -29,65 +29,77 @@ const disaCoef = {
   h_24to1: 1.14,
 }
 
+interface pluvio extends Pluvio {
+  rainData: {ano: number, chuva: number}[],
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default {  
-  //Criar constructor
+export default class Pluvio implements pluvio {
+  rainData: {ano: number, chuva: number}[]
+  constructor(rainData: {ano: number, chuva: number}[]) {
+    this.rainData = rainData;
+  }
+
+  duration= [5, 10, 15, 20, 25, 30, 60, 120, 180, 360, 480, 600, 720, 1440]
+  t_retorno = [2, 5, 10, 15, 20, 25, 50, 100, 500]
+
+
   h_24(dadosChuva: number[]) {    
     //console.log(dadosChuva.map(valor => valor * disaCoef.h_24to1));
     return dadosChuva.map(valor => valor * disaCoef.h_24to1);
-  },
+  }
   
   h_12(dadosChuva: number[]) {
     return this.h_24(dadosChuva).map(valor => valor * disaCoef.h_12to24);   
-  },
+  }
 
   h_10(dadosChuva: number[]) {
-    return this.h_24(dadosChuva).map(valor => valor * disaCoef.h_10to24)
-  },
+    return this.h_24(dadosChuva).map(valor => valor * disaCoef.h_10to24);
+  }
 
   h_8(dadosChuva: number[]) {
     return this.h_24(dadosChuva).map(valor => valor * disaCoef.h_8to24);
-  },
+  }
 
   h_6(dadosChuva: number[]) {
     return this.h_24(dadosChuva).map(valor => valor * disaCoef.h_6to24);
-  },
+  }
 
   h_3(dadosChuva: number[]) {
     return this.h_24(dadosChuva).map(valor => valor * disaCoef.h_3to24);
-  },
+  }
 
   h_2(dadosChuva: number[]) {
     return this.h_24(dadosChuva).map(valor => valor * disaCoef.h_2to24);
-  },
+  }
 
   h_1(dadosChuva: number[]) {
     return this.h_24(dadosChuva).map(valor => valor * disaCoef.h_1to24);
-  },
+  }
 
   h_030(dadosChuva: number[]) {
     return this.h_1(dadosChuva).map(valor => valor * disaCoef.h_30to1);
-  },
+  }
   
   h_025(dadosChuva: number[]) {
     return this.h_030(dadosChuva).map(valor => valor * disaCoef.h_25to30);
-  },
+  }
 
   h_020(dadosChuva: number[]) {
     return this.h_030(dadosChuva).map(valor => valor * disaCoef.h_20to30);
-  },
+  }
 
   h_015(dadosChuva: number[]) {
     return this.h_030(dadosChuva).map(valor => valor * disaCoef.h_15to30);
-  },
+  }
 
   h_010(dadosChuva: number[]) {
     return this.h_030(dadosChuva).map(valor => valor * disaCoef.h_10to30);
-  },
+  }
 
   h_05(dadosChuva: number[]) {
     return this.h_030(dadosChuva).map(valor => valor * disaCoef.h_5to30);
-  },
+  }
   
   // Tabelas de duração em minutos
 
@@ -97,7 +109,7 @@ export default {
     /*   p,
       p.reduce((prev, current) => prev + current) / p.length,
     ]; */
-  },
+  }
 
   h_10min(dadosChuva: number[]) {
     return this.h_010(dadosChuva).map((valor) => valor / (10 / 60));
@@ -105,7 +117,7 @@ export default {
       p,
       p.reduce((prev, current) => prev + current) / p.length,
     ]; */
-  },
+  }
 
   h_15min(dadosChuva: number[]) {
     return this.h_015(dadosChuva).map((valor) => valor / (15 / 60));
@@ -113,7 +125,7 @@ export default {
       p,
       p.reduce((prev, current) => prev + current) / p.length,
     ]; */
-  },
+  }
 
   h_20min(dadosChuva: number[]) {
    return this.h_020(dadosChuva).map((valor) => valor / (20 / 60));
@@ -121,7 +133,7 @@ export default {
       p,
       p.reduce((prev, current) => prev + current) / p.length,
     ]; */
-  },
+  }
 
   h_25min(dadosChuva: number[]) {
     return this.h_025(dadosChuva).map((valor) => valor / (25 / 60));
@@ -129,7 +141,7 @@ export default {
       p,
       p.reduce((prev, current) => prev + current) / p.length,
     ]; */
-  },
+  }
   
   h_30min(dadosChuva: number[]) {
     return this.h_030(dadosChuva).map((valor) => valor / (30 / 60));
@@ -137,12 +149,12 @@ export default {
       p,
       p.reduce((prev, current) => prev + current) / p.length,
     ]; */
-  },
+  }
 
   h_60min(dadosChuva: number[]) {
     // TABELA IGUAL A DE 1/24 PARA ECONOMIA DE PROCESSAMENTO IREI REPETIR A MESM
     return this.h_1(dadosChuva);
-  },
+  }
 
   h_120min(dadosChuva: number[]) {
     return this.h_2(dadosChuva).map((valor) => valor / (120 / 60));
@@ -150,7 +162,7 @@ export default {
       p,
       p.reduce((prev, current) => prev + current) / p.length,
     ]; */
-  },
+  }
 
   h_180min(dadosChuva: number[]) {
     return this.h_3(dadosChuva).map((valor) => valor / (180 / 60));
@@ -158,7 +170,7 @@ export default {
       p,
       p.reduce((prev, current) => prev + current) / p.length,
     ]; */
-  },
+  }
 
   h_360min(dadosChuva: number[]) {
     return this.h_6(dadosChuva).map((valor) => valor / (360 / 60));
@@ -166,7 +178,7 @@ export default {
       p,
       p.reduce((prev, current) => prev + current) / p.length,
     ]; */
-  },
+  }
 
   h_480min(dadosChuva: number[]) {
     return this.h_8(dadosChuva).map((valor) => valor / (480 / 60));
@@ -174,7 +186,7 @@ export default {
       p,
       p.reduce((prev, current) => prev + current) / p.length,
     ]; */
-  },
+  }
 
   h_600min(dadosChuva: number[]) {
     return this.h_10(dadosChuva).map((valor) => valor / (600 / 60));
@@ -182,7 +194,7 @@ export default {
       p,
       p.reduce((prev, current) => prev + current) / p.length,
     ]; */
-  },
+  }
 
   h_720min(dadosChuva: number[]) {
     return this.h_12(dadosChuva).map((valor) => valor / (720 / 60));
@@ -190,7 +202,7 @@ export default {
       p,
       p.reduce((prev, current) => prev + current) / p.length,
     ]; */
-  },
+  }
   
   h_1440min(dadosChuva: number[]) {
     return this.h_24(dadosChuva).map((valor) => valor / (1440 / 60));
@@ -198,7 +210,7 @@ export default {
       p,
       p.reduce((prev, current) => prev + current) / p.length,
     ]; */
-  },
+  }
 
 
   interpolacao() {
@@ -208,7 +220,7 @@ export default {
 
 
     return [ n, Yn, Sn ];
-  },
+  }
   
   interpolation(n: number) {
     //n = array.length
@@ -244,107 +256,255 @@ export default {
       Sn: interSn,
       Yn: interYn,
     }
-  },
+  }
 
   getAverage(array: number[]) {
     return array.reduce((prev, current) => prev + current) / array.length;
-  },
+  }
 
   getStandardDeviation (array: number[]) {
     const n = array.length;
     const mean = this.getAverage(array);
     return Math.sqrt(array.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n);
-  },
-
-  
+  }
   
   YReduzido (t: number) {
     //return this.t_retorno.map((t) => -Math.log(-Math.log(1-(1/t))));
     return -Math.log(-Math.log(1-(1/t)));
-  },
+  }
 
   extremePrecipitation(array: number[], length: number) {
-    const t_retorno = [2, 5, 10, 15, 20, 25, 50, 100, 500];
     let inter = this.interpolation(length);
 
     const exP: number[] = [];
     let stdDev = this.getStandardDeviation(array);
     let average = this.getAverage(array);
 
-    for(let t of t_retorno) {
+    for(let t of this.t_retorno) {
       exP.push(average + ((stdDev * (this.YReduzido(t) - inter.Yn)) / inter.Sn));
     }
 
     /* for (let i = 0; i < array.length; i++) {
-      exP.push(this.getAverage(array) + ((this.getStandardDeviation(array) * (this.YReduzido(t) - inter.Yn)) / inter.Sn));
-    } */
+      exP.push(stdDev + ((average  * (this.YReduzido(t) - inter.Yn)) / inter.Sn));
+    }  */
 
     return exP;
-  },
+  }
 
-  parameterB (array: number[], t: number) {
+  getR2 (log10Array:number[], logTPlusB: number[]) {
+    //let log10Array = array.map(value => Math.log10(value));
+    //let logTPlusB = this.duration.map(value => Math.log10(value + b));
+
+    let averageX = this.getAverage(log10Array);
+    let averageY = this.getAverage(logTPlusB);
+
+    let xlessAverage = log10Array.map(value => value - averageX);
+    let ylessAverage = logTPlusB.map(value => value - averageY);
+
+    let numerator = xlessAverage.reduce((prev, pos, index) => prev + (pos * ylessAverage[index]), 0);
+
+    let xSumPow2 = xlessAverage.map(value => value ** 2).reduce((prev, pos) => prev + pos, 0);
+    let ySumPow2 = ylessAverage.map(value => value ** 2).reduce((prev, pos) => prev + pos, 0);
+    let denominator = Math.sqrt(xSumPow2*ySumPow2);
+
+    return (numerator/denominator) ** 2;
+  }
+
+  parameterB (): number {
+    const rainIntensityGumbelGraphic = this.rainIntensityGumbel();
+    //let b = this.parameterB(rainIntensityGumbelGraphic[2].data, 10); //9.778499999999816
+    const array = rainIntensityGumbelGraphic[2].data;
     
-    //let b: number;
+    let b: number = 0, i: number = 9.7 /* = 0 */, current: number = 0, aux: number = 0;
 
-    const getR2 = (array:number[], b: number) => {
-      const duration = [5, 10, 15, 20, 25, 30, 60, 120, 180, 360, 480, 600, 720, 1440];
-      let log10Array = array.map(value => Math.log10(value));
-      let logTPlusB = duration.map(value => Math.log10(value + b));
-
-      let averageX = this.getAverage(log10Array);
-      let averageY = this.getAverage(logTPlusB);
-
-      let xlessAverage = log10Array.map(value => value - averageX);
-      let ylessAverage = logTPlusB.map(value => value - averageY);
-
-
-      let numerator = xlessAverage.reduce((prev, pos, index) => prev + (pos * ylessAverage[index]));
-      let xSumPow2 = xlessAverage.map(value => value ** 2).reduce((prev, pos) => prev + pos);
-      let ySumPow2 = ylessAverage.map(value => value ** 2).reduce((prev, pos) => prev + pos);
-      let denominator = Math.sqrt(xSumPow2*ySumPow2);
-
-      return (numerator/denominator) ** 2;
+    while(current >= aux) {
+      aux = current;
+      i += 0.0001;
+      let logTplusB: number[] = [];
+      for (let min of this.duration){
+        logTplusB.push(Math.log10(min + b))
+      }
+      current = this.getR2(array.map(value => Math.log10(value)), logTplusB);
+      //this.duration.map(min => Math.log10(min + b)); I don't know why EsLint complains about this syntax!
+      b = i;
     }
-  },
 
-  manageData(rainData: {ano: number, chuva: number}[]): void {
-    const rainPerDurationGraphic: {duration: number, data: number[]}[] = [
-      {duration: 5, data: this.h_05min(rainData.map((value) => value.chuva))},
-      {duration: 10, data: this.h_10min(rainData.map((value) => value.chuva))},
-      {duration: 15, data: this.h_15min(rainData.map((value) => value.chuva))},
-      {duration: 20, data: this.h_20min(rainData.map((value) => value.chuva))},
-      {duration: 25, data: this.h_25min(rainData.map((value) => value.chuva))},
-      {duration: 30, data: this.h_30min(rainData.map((value) => value.chuva))},
-      {duration: 60, data: this.h_60min(rainData.map((value) => value.chuva))},
-      {duration: 120, data: this.h_120min(rainData.map((value) => value.chuva))},
-      {duration: 180, data: this.h_180min(rainData.map((value) => value.chuva))},
-      {duration: 360, data: this.h_360min(rainData.map((value) => value.chuva))},
-      {duration: 480, data: this.h_480min(rainData.map((value) => value.chuva))},
-      {duration: 600, data: this.h_600min(rainData.map((value) => value.chuva))},
-      {duration: 720, data: this.h_720min(rainData.map((value) => value.chuva))},
-      {duration: 1440, data: this.h_1440min(rainData.map((value) => value.chuva))},
-    ];
-    //console.log(rainPerDurationGraphic); //Valores confirmados!
+    return b;
+  }
 
+  slope(y: number[], x: number[]) {
+    //const y = data.map(value => Math.log10(value)); //log(t)
+    //const x = this.duration.map(t => Math.log10(t + b)); //log(duration+b)
+
+    let averageY = this.getAverage(y);
+    let averageX = this.getAverage(x);
+    
+    let ylessAverage = y.map(value => value - averageY);
+    let xlessAverage = x.map(value => value - averageX);
+
+    let numerator = ylessAverage.reduce((prev, pos, index) => prev + (pos * xlessAverage[index]), 0);
+    let denominator = xlessAverage.map(value => value ** 2).reduce((prev, pos) => prev + pos, 0);
+
+    return (numerator/denominator);
+  }
+
+  intercept(y: number[], x: number[]) {
+    //const y = data.map(value => Math.log10(value)); //log(t)
+    //const x = this.duration.map(t => Math.log10(t + b)); //log(duration+b)
+
+    let averageY = this.getAverage(y);
+    let averageX = this.getAverage(x);
+
+    let ylessAverage = y.map(value => value - averageY);
+    let xlessAverage = x.map(value => value - averageX);
+
+    let numerator = ylessAverage.reduce((prev, pos, index) => prev + (pos * xlessAverage[index]), 0);
+    let denominator = xlessAverage.map(value => value ** 2).reduce((prev, pos) => prev + pos, 0);
+
+    return (averageY - ((numerator/denominator)*averageX));
+  }
+
+  parameterA(/*rainIntensity: {t: number, data: number[]}[], b: number*/): number {
+    //console.log(this.parameterA(rainIntensityGumbelGraphic, b));
+    const rainIntensity = this.rainIntensityGumbel();
+    const b = this.parameterB();
+    const logC: number[] = [];
+    
+    rainIntensity.forEach((obj) => {
+      logC.push(this.intercept(obj.data.map(value => Math.log10(value)), this.duration.map(t => Math.log10(t + b))));
+    })
+    
+    const logT = this.t_retorno.map(t => Math.log10(t));
+    return this.slope(logC, logT);
+  }
+
+  parameterK(/*rainIntensity: {t: number, data: number[]}[], b: number*/) {
+    const rainIntensity = this.rainIntensityGumbel();
+    const b = this.parameterB();
+    const logC: number[] = [];
+    
+    rainIntensity.forEach((obj) => {
+      logC.push(this.intercept(obj.data.map(value => Math.log10(value)), this.duration.map(t => Math.log10(t + b))));
+    })
+    
+    const logT = this.t_retorno.map(t => Math.log10(t));
+    return (10 ** (this.intercept(logC, logT))) * 60; //Em horas!
+  }
+
+  parameterC(/*rainIntensity: {t: number, data: number[]}[], b: number*/): number {
+    const rainIntensity = this.rainIntensityGumbel();
+    const b = this.parameterB();
+    const n: number[] = [];
+    
+    rainIntensity.forEach((obj) => {
+      n.push(this.slope(obj.data.map(value => Math.log10(value)), this.duration.map(t => Math.log10(t + b))));
+    })
+    return -this.getAverage(n);
+  }
+
+  rainIntensity(): {duration: number, data: number[]}[] {
     const rainIntensityGraphic: {duration: number, data: number[]}[] = [
-      {duration: rainPerDurationGraphic[0].duration, data: this.extremePrecipitation(rainPerDurationGraphic[0].data, rainData.length)},
-      {duration: rainPerDurationGraphic[1].duration, data: this.extremePrecipitation(rainPerDurationGraphic[1].data, rainData.length)},
-      {duration: rainPerDurationGraphic[2].duration, data: this.extremePrecipitation(rainPerDurationGraphic[2].data, rainData.length)},
-      {duration: rainPerDurationGraphic[3].duration, data: this.extremePrecipitation(rainPerDurationGraphic[3].data, rainData.length)},
-      {duration: rainPerDurationGraphic[4].duration, data: this.extremePrecipitation(rainPerDurationGraphic[4].data, rainData.length)},
-      {duration: rainPerDurationGraphic[5].duration, data: this.extremePrecipitation(rainPerDurationGraphic[5].data, rainData.length)},
-      {duration: rainPerDurationGraphic[6].duration, data: this.extremePrecipitation(rainPerDurationGraphic[1].data, rainData.length)},
-      {duration: rainPerDurationGraphic[7].duration, data: this.extremePrecipitation(rainPerDurationGraphic[7].data, rainData.length)},
-      {duration: rainPerDurationGraphic[8].duration, data: this.extremePrecipitation(rainPerDurationGraphic[8].data, rainData.length)},
-      {duration: rainPerDurationGraphic[9].duration, data: this.extremePrecipitation(rainPerDurationGraphic[9].data, rainData.length)},
-      {duration: rainPerDurationGraphic[10].duration, data: this.extremePrecipitation(rainPerDurationGraphic[10].data, rainData.length)},
-      {duration: rainPerDurationGraphic[11].duration, data: this.extremePrecipitation(rainPerDurationGraphic[11].data, rainData.length)},
-      {duration: rainPerDurationGraphic[12].duration, data: this.extremePrecipitation(rainPerDurationGraphic[12].data, rainData.length)},
-      {duration: rainPerDurationGraphic[13].duration, data: this.extremePrecipitation(rainPerDurationGraphic[13].data, rainData.length)},
-    ]
+      {duration: 5, data: this.h_05min(this.rainData.map((value) => value.chuva))},
+      {duration: 10, data: this.h_10min(this.rainData.map((value) => value.chuva))},
+      {duration: 15, data: this.h_15min(this.rainData.map((value) => value.chuva))},
+      {duration: 20, data: this.h_20min(this.rainData.map((value) => value.chuva))},
+      {duration: 25, data: this.h_25min(this.rainData.map((value) => value.chuva))},
+      {duration: 30, data: this.h_30min(this.rainData.map((value) => value.chuva))},
+      {duration: 60, data: this.h_60min(this.rainData.map((value) => value.chuva))},
+      {duration: 120, data: this.h_120min(this.rainData.map((value) => value.chuva))},
+      {duration: 180, data: this.h_180min(this.rainData.map((value) => value.chuva))},
+      {duration: 360, data: this.h_360min(this.rainData.map((value) => value.chuva))},
+      {duration: 480, data: this.h_480min(this.rainData.map((value) => value.chuva))},
+      {duration: 600, data: this.h_600min(this.rainData.map((value) => value.chuva))},
+      {duration: 720, data: this.h_720min(this.rainData.map((value) => value.chuva))},
+      {duration: 1440, data: this.h_1440min(this.rainData.map((value) => value.chuva))},
+    ];
 
-    console.log(rainIntensityGraphic); //Valores confirmados!
-  
-  },
+    return rainIntensityGraphic;
+  }
 
+  rainIntensityGumbel(): {t: number, data: number[]}[] {
+    const rainIntensityGraphic = this.rainIntensity();
+    const rainIntensityGumbelGraphic: {t: number, data: number[]}[] = [];
+
+    this.t_retorno.forEach((x, index) => {
+      rainIntensityGumbelGraphic[index] = {t: 0, data: []};
+      rainIntensityGumbelGraphic[index].t = x;
+      let aux = [];
+      for(let i = 0; i < rainIntensityGraphic.length; i++) {
+        let a = this.extremePrecipitation(rainIntensityGraphic[i].data, this.rainData.length); 
+        aux[i] = a[index] / 60; //colocar em minutos
+      }
+      rainIntensityGumbelGraphic[index].data = aux;
+    }); //Versão com os valores de duração para cada t (É o que será usado nos calculos de b);
+
+    return rainIntensityGumbelGraphic;
+  }
+
+
+
+  manageData(): void {
+    //console.log(rainIntensityGraphic); //Valores confirmados!
+
+
+    /* const rainIntensityGumbelGraphic: {duration: number, data: number[]}[] = [
+      {duration: rainIntensityGraphic[0].duration, data: this.extremePrecipitation(rainIntensityGraphic[0].data, rainData.length)},
+      {duration: rainIntensityGraphic[1].duration, data: this.extremePrecipitation(rainIntensityGraphic[1].data, rainData.length)},
+      {duration: rainIntensityGraphic[2].duration, data: this.extremePrecipitation(rainIntensityGraphic[2].data, rainData.length)},
+      {duration: rainIntensityGraphic[3].duration, data: this.extremePrecipitation(rainIntensityGraphic[3].data, rainData.length)},
+      {duration: rainIntensityGraphic[4].duration, data: this.extremePrecipitation(rainIntensityGraphic[4].data, rainData.length)},
+      {duration: rainIntensityGraphic[5].duration, data: this.extremePrecipitation(rainIntensityGraphic[5].data, rainData.length)},
+      {duration: rainIntensityGraphic[6].duration, data: this.extremePrecipitation(rainIntensityGraphic[1].data, rainData.length)},
+      {duration: rainIntensityGraphic[7].duration, data: this.extremePrecipitation(rainIntensityGraphic[7].data, rainData.length)},
+      {duration: rainIntensityGraphic[8].duration, data: this.extremePrecipitation(rainIntensityGraphic[8].data, rainData.length)},
+      {duration: rainIntensityGraphic[9].duration, data: this.extremePrecipitation(rainIntensityGraphic[9].data, rainData.length)},
+      {duration: rainIntensityGraphic[10].duration, data: this.extremePrecipitation(rainIntensityGraphic[10].data, rainData.length)},
+      {duration: rainIntensityGraphic[11].duration, data: this.extremePrecipitation(rainIntensityGraphic[11].data, rainData.length)},
+      {duration: rainIntensityGraphic[12].duration, data: this.extremePrecipitation(rainIntensityGraphic[12].data, rainData.length)},
+      {duration: rainIntensityGraphic[13].duration, data: this.extremePrecipitation(rainIntensityGraphic[13].data, rainData.length)},
+    ] */ //Versão com os valores de t para cada duração 
+
+   
+
+    //console.log(rainIntensityGumbelGraphic); //Valores confirmados!
+
+    console.log('b:', this.parameterB());
+    console.log('a:', this.parameterA());
+    console.log('k:', this.parameterK());
+    console.log('c_médio:', this.parameterC());
+    console.log('R2', this.parameterR2());
+  }
+
+  IDF_Equation(): {t: number, data: number[]}[] {
+    const b = this.parameterB();
+    const a =  this.parameterA();
+    const k = this.parameterK();
+    const c_average = this.parameterC();
+    
+    const IDF: {t: number, data: number[]}[] = [];
+
+    this.t_retorno.forEach((t, index) => {
+      IDF[index] = {t: t, data: []};
+      IDF[index].data = this.duration.map((min) => ((k * t ** a) / (min  + b) ** c_average));
+    });
+    return IDF;
+  }
+
+  matrixToArray(matrix: {t: number, data: number[]}[]): number[] {
+    let array: number[] = [];
+
+    for(let i = 0; i < matrix.length; i++) {
+      for(let j = 0; j < matrix[i].data.length; j++) {
+        array.push(matrix[i].data[j]);
+      }
+    }
+    return array;
+  }
+
+  parameterR2 (): number {
+    const IDFArray = this.matrixToArray(this.IDF_Equation());
+    const gumbelArray = this.matrixToArray(this.rainIntensityGumbel());
+
+    return this.getR2(IDFArray, gumbelArray);;
+  }
 };

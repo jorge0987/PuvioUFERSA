@@ -3,9 +3,10 @@ import PageTemplate from "../PageTemplate";
 import { Link } from "react-router-dom";
 import styled from "styled-components"; */
 import { rainData } from "../../utils/interpolationData";
-import func from "../../utils/tabela";
+import Pluvio from "../../utils/tabela";
 
-func.manageData(rainData);
+const cityPluvio = new Pluvio(rainData);
+cityPluvio.manageData();
 
 /* const Button = styled(Link)`
   width: 100px;
