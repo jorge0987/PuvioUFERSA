@@ -1,335 +1,350 @@
 // eslint-disable-next-line import/no-anonymous-default-export
-import { ObjectFlags } from "typescript";
-const  dadosChuva = [
+//import { ObjectFlags } from "typescript";
+import { interData } from "./interpolationData";
+
+
+/* const  dadosChuva = [
   //{ ano: 1964, chuva: 114.0 },
   141.0, 118.4, 127.4, 52.4, 90.3, 62.5, 50.3, 65.4, 81.0, 49.6, 124.2,
   112.0, 44.2, 80.6, 48.0, 47.0, 45.8, 56.4, 56.4, 35.8, 111.0, 111.6, 48.7,
   37.6, 53.3, 67.0, 45.0, 77.0, 38.6, 19.4, 69.8, 90.0, 65.6, 89.0, 45.0,
   73.0, 63.0, 50.0, 99.0, 54.0, 96.0, 71.1, 48.5, 65.6, 48.2, 86.6, 137.5,
   97.5, 21.5, 203.5, 28.0, 47.0, 50.0, 120.0, 53.0, 49.0, 86.0,
-];
+]; */
 
-
+const disaCoef = {
+  h_5to30: 0.34,
+  h_10to30: 0.54,
+  h_15to30: 0.70,
+  h_20to30: 0.81,
+  h_25to30: 0.91,
+  h_30to1: 0.74,
+  h_1to24: 0.42,
+  h_2to24: 0.48,
+  h_3to24: 0.54,
+  h_6to24: 0.72,
+  h_8to24: 0.78,
+  h_10to24: 0.82,
+  h_12to24: 0.85,
+  h_24to1: 1.14,
+}
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {  
-  h_24() {    
-    console.log(dadosChuva.map(valor => valor *1.14));
-    return dadosChuva.map(valor => valor *1.14);
-    
+  //Criar constructor
+  h_24(dadosChuva: number[]) {    
+    //console.log(dadosChuva.map(valor => valor * disaCoef.h_24to1));
+    return dadosChuva.map(valor => valor * disaCoef.h_24to1);
   },
-  h_12() {
-    return this.h_24().map(valor => valor *0.85);   
+  
+  h_12(dadosChuva: number[]) {
+    return this.h_24(dadosChuva).map(valor => valor * disaCoef.h_12to24);   
   },
-  h_10() {
-    var p = this.h_24();
-    var h10 = [];
-    var aux = 0;
-    do {
-      h10.push(p[aux] * 0.82);
-      aux += 1;
-    } while (aux < p.length);
-    return h10;
+
+  h_10(dadosChuva: number[]) {
+    return this.h_24(dadosChuva).map(valor => valor * disaCoef.h_10to24)
   },
-  h_8() {
-    var p = this.h_24();
-    var h8 = [];
-    var aux = 0;
-    do {
-      h8.push(p[aux] * 0.78);
-      aux += 1;
-    } while (aux < p.length);
-    return h8;
+
+  h_8(dadosChuva: number[]) {
+    return this.h_24(dadosChuva).map(valor => valor * disaCoef.h_8to24);
   },
-  h_6() {
-    var p = this.h_24();
-    var h6 = [];
-    var aux = 0;
-    do {
-      h6.push(p[aux] * 0.72);
-      aux += 1;
-    } while (aux < p.length);
-    return h6;
+
+  h_6(dadosChuva: number[]) {
+    return this.h_24(dadosChuva).map(valor => valor * disaCoef.h_6to24);
   },
-  h_3() {
-    var p = this.h_24();
-    var h3 = [];
-    var aux = 0;
-    do {
-      h3.push(p[aux] * 0.54);
-      aux += 1;
-    } while (aux < p.length);
-    return h3;
+
+  h_3(dadosChuva: number[]) {
+    return this.h_24(dadosChuva).map(valor => valor * disaCoef.h_3to24);
   },
-  h_2() {
-    var p = this.h_24();
-    var h2 = [];
-    var aux = 0;
-    do {
-      h2.push(p[aux] * 0.48);
-      aux += 1;
-    } while (aux < p.length);
-    return h2;
+
+  h_2(dadosChuva: number[]) {
+    return this.h_24(dadosChuva).map(valor => valor * disaCoef.h_2to24);
   },
-  h_1() {
-    var p = this.h_24();
-    var h1 = [];
-    var aux = 0;
-    do {
-      h1.push(p[aux] * 0.42);
-      aux += 1;
-    } while (aux < p.length);
-    return h1;
+
+  h_1(dadosChuva: number[]) {
+    return this.h_24(dadosChuva).map(valor => valor * disaCoef.h_1to24);
   },
-  h_030() {
-    var p = this.h_1();
-    var h030 = [];
-    var aux = 0;
-    do {
-      h030.push(p[aux] * 0.74);
-      aux += 1;
-    } while (aux < p.length);
-    return h030;
+
+  h_030(dadosChuva: number[]) {
+    return this.h_1(dadosChuva).map(valor => valor * disaCoef.h_30to1);
   },
-  h_025() {
-    var p = this.h_030();
-    var h025 = [];
-    var aux = 0;
-    do {
-      h025.push(p[aux] * 0.91);
-      aux += 1;
-    } while (aux < p.length);
-    return h025;
+  
+  h_025(dadosChuva: number[]) {
+    return this.h_030(dadosChuva).map(valor => valor * disaCoef.h_25to30);
   },
-  h_020() {
-    var p = this.h_030();
-    var h020 = [];
-    var aux = 0;
-    do {
-      h020.push(p[aux] * 0.81);
-      aux += 1;
-    } while (aux < p.length);
-    return h020;
+
+  h_020(dadosChuva: number[]) {
+    return this.h_030(dadosChuva).map(valor => valor * disaCoef.h_20to30);
   },
-  h_015() {
-    var p = this.h_030();
-    var h015 = [];
-    var aux = 0;
-    do {
-      h015.push(p[aux] * 0.7);
-      aux += 1;
-    } while (aux < p.length);
-    return h015;
+
+  h_015(dadosChuva: number[]) {
+    return this.h_030(dadosChuva).map(valor => valor * disaCoef.h_15to30);
   },
-  h_010() {
-    var p = this.h_030();
-    var h010 = [];
-    var aux = 0;
-    do {
-      h010.push(p[aux] * 0.54);
-      aux += 1;
-    } while (aux < p.length);
-    return h010;
+
+  h_010(dadosChuva: number[]) {
+    return this.h_030(dadosChuva).map(valor => valor * disaCoef.h_10to30);
   },
-  h_05() {
-    var p = this.h_030();
-    var h05 = [];
-    var aux = 0;
-    do {
-      h05.push(p[aux] * 0.34);
-      aux += 1;
-    } while (aux < p.length);
-    return h05;
+
+  h_05(dadosChuva: number[]) {
+    return this.h_030(dadosChuva).map(valor => valor * disaCoef.h_5to30);
   },
+  
   // Tabelas de duração em minutos
-  h_05min() {
-    var p = this.h_05();
-    var h05min = [];
-    var aux = 0;
-    var media5min: any = 0.0;
 
-    do {
-      h05min.push(p[aux] / (5 / 60));
-      media5min += h05min[aux];
-      aux += 1;
-    } while (aux < p.length);
+  h_05min(dadosChuva: number[]) {
+    //let p = 
+    return this.h_05(dadosChuva).map(valor => valor / (5 / 60));
+    /*   p,
+      p.reduce((prev, current) => prev + current) / p.length,
+    ]; */
+  },
 
-    media5min = media5min / aux;
-    return [h05min, media5min];
+  h_10min(dadosChuva: number[]) {
+    return this.h_010(dadosChuva).map((valor) => valor / (10 / 60));
+    /* return [
+      p,
+      p.reduce((prev, current) => prev + current) / p.length,
+    ]; */
   },
-  h_10min() {
-    var p = this.h_010();
-    var h10min = [];
-    var aux = 0;
-    var media10min: any = 0.0;
 
-    do {
-      h10min.push(p[aux] / (10 / 60));
-      media10min += h10min[aux];
-      aux += 1;
-    } while (aux < p.length);
-    media10min = media10min / aux;
+  h_15min(dadosChuva: number[]) {
+    return this.h_015(dadosChuva).map((valor) => valor / (15 / 60));
+    /* return [
+      p,
+      p.reduce((prev, current) => prev + current) / p.length,
+    ]; */
+  },
 
-    return [h10min, media10min];
+  h_20min(dadosChuva: number[]) {
+   return this.h_020(dadosChuva).map((valor) => valor / (20 / 60));
+    /* return [
+      p,
+      p.reduce((prev, current) => prev + current) / p.length,
+    ]; */
   },
-  h_15min() {
-    var p = this.h_015();
-    var h15min = [];
-    var aux = 0;
-    var media15min: any = 0.0;
-    do {
-      h15min.push(p[aux] / (15 / 60));
-      media15min += h15min[aux];
-      aux += 1;
-    } while (aux < p.length);
-    media15min = media15min / aux;
-    return [h15min, media15min];
+
+  h_25min(dadosChuva: number[]) {
+    return this.h_025(dadosChuva).map((valor) => valor / (25 / 60));
+    /* return [
+      p,
+      p.reduce((prev, current) => prev + current) / p.length,
+    ]; */
   },
-  h_20min() {
-    var p = this.h_020();
-    var h20min = [];
-    var aux = 0;
-    var media20min: any = 0.0;
-    do {
-      h20min.push(p[aux] / (20 / 60));
-      media20min += h20min[aux];
-      aux += 1;
-    } while (aux < p.length);
-    media20min = media20min / aux;
-    return [h20min, media20min];
+  
+  h_30min(dadosChuva: number[]) {
+    return this.h_030(dadosChuva).map((valor) => valor / (30 / 60));
+    /* return [
+      p,
+      p.reduce((prev, current) => prev + current) / p.length,
+    ]; */
   },
-  h_25min() {
-    var p = this.h_025();
-    var h25min = [];
-    var aux = 0;
-    var media25min: any = 0.0;
-    do {
-      h25min.push(p[aux] / (25 / 60));
-      media25min += h25min[aux];
-      aux += 1;
-    } while (aux < p.length);
-    media25min = media25min / aux;
-    return [h25min, media25min];
-  },
-  h_30min() {
-    var p = this.h_030();
-    var h30min = [];
-    var aux = 0;
-    var media30min: any = 0.0;
-    do {
-      h30min.push(p[aux] / (30 / 60));
-      media30min += h30min[aux];
-      aux += 1;
-    } while (aux < p.length);
-    return [h30min, media30min];
-  },
-  h_60min() {
+
+  h_60min(dadosChuva: number[]) {
     // TABELA IGUAL A DE 1/24 PARA ECONOMIA DE PROCESSAMENTO IREI REPETIR A MESM
+    return this.h_1(dadosChuva);
   },
 
-  h_120min() {
-    var p = this.h_2();
-    var h120min = [];
-    var aux = 0;
-    var media120min: any = 0.0;
-    do {
-      h120min.push(p[aux] / (120 / 60));
-      media120min += h120min[aux];
-      aux += 1;
-    } while (aux < p.length);
-    media120min = media120min / aux;
-    return [h120min, media120min];
+  h_120min(dadosChuva: number[]) {
+    return this.h_2(dadosChuva).map((valor) => valor / (120 / 60));
+    /* return [
+      p,
+      p.reduce((prev, current) => prev + current) / p.length,
+    ]; */
   },
 
-  h_180min() {
-    var p = this.h_3();
-    var h180min = [];
-    var aux = 0;
-    var media180min: any = 0.0;
-    do {
-      h180min.push(p[aux] / (180 / 60));
-      media180min += h180min[aux];
-      aux += 1;
-    } while (aux < p.length);
-    media180min = media180min / aux;
-    return [h180min, media180min];
+  h_180min(dadosChuva: number[]) {
+    return this.h_3(dadosChuva).map((valor) => valor / (180 / 60));
+    /* return [
+      p,
+      p.reduce((prev, current) => prev + current) / p.length,
+    ]; */
   },
 
-  h_360min() {
-    var p = this.h_6();
-    var h360min = [];
-    var aux = 0;
-    var media360min: any = 0.0;
-    do {
-      h360min.push(p[aux] / (360 / 60));
-      media360min += h360min[aux];
-      aux += 1;
-    } while (aux < p.length);
-    media360min = media360min / aux;
-    return [h360min, media360min];
+  h_360min(dadosChuva: number[]) {
+    return this.h_6(dadosChuva).map((valor) => valor / (360 / 60));
+    /* return [
+      p,
+      p.reduce((prev, current) => prev + current) / p.length,
+    ]; */
   },
 
-  h_480min() {
-    var p = this.h_8();
-    var h480min = [];
-    var aux = 0;
-    var media480min: any = 0.0;
-    do {
-      h480min.push(p[aux] / (480 / 60));
-      media480min += h480min[aux];
-      aux += 1;
-    } while (aux < p.length);
-    media480min = media480min / aux;
-    return [h480min, media480min];
+  h_480min(dadosChuva: number[]) {
+    return this.h_8(dadosChuva).map((valor) => valor / (480 / 60));
+    /* return [
+      p,
+      p.reduce((prev, current) => prev + current) / p.length,
+    ]; */
   },
-  h_600min() {
-    var p = this.h_10();
-    var h600min = [];
-    var aux = 0;
-    var media600min: any = 0.0;
-    do {
-      h600min.push(p[aux] / (600 / 60));
-      media600min += h600min[aux];
-      aux += 1;
-    } while (aux < p.length);
-    media600min = media600min / aux;
-    return [h600min, media600min];
+
+  h_600min(dadosChuva: number[]) {
+    return this.h_10(dadosChuva).map((valor) => valor / (600 / 60));
+    /* return [
+      p,
+      p.reduce((prev, current) => prev + current) / p.length,
+    ]; */
   },
-  h_720min() {
-    var p = this.h_12();
-    var h720min = [];
-    var aux = 0;
-    var media720min: any = 0.0;
-    do {
-      h720min.push(p[aux] / (720 / 60));
-      media720min += h720min[aux];
-      aux += 1;
-    } while (aux < p.length);
-    media720min = media720min / aux;
-    return [h720min, media720min];
+
+  h_720min(dadosChuva: number[]) {
+    return this.h_12(dadosChuva).map((valor) => valor / (720 / 60));
+    /* return [
+      p,
+      p.reduce((prev, current) => prev + current) / p.length,
+    ]; */
   },
-  h_1440min() {
-   
-    var p = this.h_24();
-    var h1440min = [];
-    var aux = 0;
-    var media1440min: any = 0.0;
-    do {
-      h1440min.push(p[aux] / (1440 / 60));
-      media1440min = h1440min[aux];
-      aux += 1;
-    } while (aux < p.length);
-    media1440min = media1440min / aux;
-    return [h1440min, media1440min];
+  
+  h_1440min(dadosChuva: number[]) {
+    return this.h_24(dadosChuva).map((valor) => valor / (1440 / 60));
+    /* return [
+      p,
+      p.reduce((prev, current) => prev + current) / p.length,
+    ]; */
   },
-  interpolacao(){
+
+
+  interpolacao() {
     const  n =  [  20,   30,   40,   50,   60,   70,   80,   90,  100,  150,  200];
     const Yn = [ 0.52, 0.54, 0.54, 0.55, 0.55, 0.55, 0.56, 0.56, 0.56, 0.56, 0.57, 0.57];
     const Sn = [ 1.06, 1.11, 1.14, 1.16, 1.17, 1.19, 1.19, 1.20, 1.21, 1.23, 1.24, 1.28];
 
 
     return [ n, Yn, Sn ];
-  }
+  },
   
+  interpolation(n: number) {
+    //n = array.length
+    let aux = 0;
+
+    for (let i = 0; i < interData.length; i++) {
+      if (interData[i].n < n) aux = i ;
+      if (interData[i].n === n) return { ...interData[i] };
+    }
+
+    if(typeof interData[aux+1] === 'undefined') return {
+      n,
+      Sn: 1.28,
+      Yn: 0.57,
+     };
+    
+    //sLB = smaller Less Bigger
+    // sLC = smaller Less Current
+    let sLB_N = interData[aux].n - interData[aux+1].n; //-10
+    let sLC_N = interData[aux].n - n; //-7 
+
+    let sLB_Sn = interData[aux].Sn - interData[aux+1].Sn; //-0,010
+    let interSn = ((sLC_N * sLB_Sn)+((-sLB_N) * interData[aux].Sn)) / (-sLB_N);
+
+
+    let sLB_Yn = interData[aux].Yn - interData[aux+1].Yn;
+    //Veificar se está correto!
+    let interYn = ((sLC_N * sLB_Yn)+((-sLB_N) * interData[aux].Yn)) / (-sLB_N);
+
+
+    return {
+      n,
+      Sn: interSn,
+      Yn: interYn,
+    }
+  },
+
+  getAverage(array: number[]) {
+    return array.reduce((prev, current) => prev + current) / array.length;
+  },
+
+  getStandardDeviation (array: number[]) {
+    const n = array.length;
+    const mean = this.getAverage(array);
+    return Math.sqrt(array.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n);
+  },
+
+  
+  
+  YReduzido (t: number) {
+    //return this.t_retorno.map((t) => -Math.log(-Math.log(1-(1/t))));
+    return -Math.log(-Math.log(1-(1/t)));
+  },
+
+  extremePrecipitation(array: number[], length: number) {
+    const t_retorno = [2, 5, 10, 15, 20, 25, 50, 100, 500];
+    let inter = this.interpolation(length);
+
+    const exP: number[] = [];
+    let stdDev = this.getStandardDeviation(array);
+    let average = this.getAverage(array);
+
+    for(let t of t_retorno) {
+      exP.push(average + ((stdDev * (this.YReduzido(t) - inter.Yn)) / inter.Sn));
+    }
+
+    /* for (let i = 0; i < array.length; i++) {
+      exP.push(this.getAverage(array) + ((this.getStandardDeviation(array) * (this.YReduzido(t) - inter.Yn)) / inter.Sn));
+    } */
+
+    return exP;
+  },
+
+  parameterB (array: number[], t: number) {
+    
+    //let b: number;
+
+    const getR2 = (array:number[], b: number) => {
+      const duration = [5, 10, 15, 20, 25, 30, 60, 120, 180, 360, 480, 600, 720, 1440];
+      let log10Array = array.map(value => Math.log10(value));
+      let logTPlusB = duration.map(value => Math.log10(value + b));
+
+      let averageX = this.getAverage(log10Array);
+      let averageY = this.getAverage(logTPlusB);
+
+      let xlessAverage = log10Array.map(value => value - averageX);
+      let ylessAverage = logTPlusB.map(value => value - averageY);
+
+
+      let numerator = xlessAverage.reduce((prev, pos, index) => prev + (pos * ylessAverage[index]));
+      let xSumPow2 = xlessAverage.map(value => value ** 2).reduce((prev, pos) => prev + pos);
+      let ySumPow2 = ylessAverage.map(value => value ** 2).reduce((prev, pos) => prev + pos);
+      let denominator = Math.sqrt(xSumPow2*ySumPow2);
+
+      return (numerator/denominator) ** 2;
+    }
+  },
+
+  manageData(rainData: {ano: number, chuva: number}[]): void {
+    const rainPerDurationGraphic: {duration: number, data: number[]}[] = [
+      {duration: 5, data: this.h_05min(rainData.map((value) => value.chuva))},
+      {duration: 10, data: this.h_10min(rainData.map((value) => value.chuva))},
+      {duration: 15, data: this.h_15min(rainData.map((value) => value.chuva))},
+      {duration: 20, data: this.h_20min(rainData.map((value) => value.chuva))},
+      {duration: 25, data: this.h_25min(rainData.map((value) => value.chuva))},
+      {duration: 30, data: this.h_30min(rainData.map((value) => value.chuva))},
+      {duration: 60, data: this.h_60min(rainData.map((value) => value.chuva))},
+      {duration: 120, data: this.h_120min(rainData.map((value) => value.chuva))},
+      {duration: 180, data: this.h_180min(rainData.map((value) => value.chuva))},
+      {duration: 360, data: this.h_360min(rainData.map((value) => value.chuva))},
+      {duration: 480, data: this.h_480min(rainData.map((value) => value.chuva))},
+      {duration: 600, data: this.h_600min(rainData.map((value) => value.chuva))},
+      {duration: 720, data: this.h_720min(rainData.map((value) => value.chuva))},
+      {duration: 1440, data: this.h_1440min(rainData.map((value) => value.chuva))},
+    ];
+    //console.log(rainPerDurationGraphic); //Valores confirmados!
+
+    const rainIntensityGraphic: {duration: number, data: number[]}[] = [
+      {duration: rainPerDurationGraphic[0].duration, data: this.extremePrecipitation(rainPerDurationGraphic[0].data, rainData.length)},
+      {duration: rainPerDurationGraphic[1].duration, data: this.extremePrecipitation(rainPerDurationGraphic[1].data, rainData.length)},
+      {duration: rainPerDurationGraphic[2].duration, data: this.extremePrecipitation(rainPerDurationGraphic[2].data, rainData.length)},
+      {duration: rainPerDurationGraphic[3].duration, data: this.extremePrecipitation(rainPerDurationGraphic[3].data, rainData.length)},
+      {duration: rainPerDurationGraphic[4].duration, data: this.extremePrecipitation(rainPerDurationGraphic[4].data, rainData.length)},
+      {duration: rainPerDurationGraphic[5].duration, data: this.extremePrecipitation(rainPerDurationGraphic[5].data, rainData.length)},
+      {duration: rainPerDurationGraphic[6].duration, data: this.extremePrecipitation(rainPerDurationGraphic[1].data, rainData.length)},
+      {duration: rainPerDurationGraphic[7].duration, data: this.extremePrecipitation(rainPerDurationGraphic[7].data, rainData.length)},
+      {duration: rainPerDurationGraphic[8].duration, data: this.extremePrecipitation(rainPerDurationGraphic[8].data, rainData.length)},
+      {duration: rainPerDurationGraphic[9].duration, data: this.extremePrecipitation(rainPerDurationGraphic[9].data, rainData.length)},
+      {duration: rainPerDurationGraphic[10].duration, data: this.extremePrecipitation(rainPerDurationGraphic[10].data, rainData.length)},
+      {duration: rainPerDurationGraphic[11].duration, data: this.extremePrecipitation(rainPerDurationGraphic[11].data, rainData.length)},
+      {duration: rainPerDurationGraphic[12].duration, data: this.extremePrecipitation(rainPerDurationGraphic[12].data, rainData.length)},
+      {duration: rainPerDurationGraphic[13].duration, data: this.extremePrecipitation(rainPerDurationGraphic[13].data, rainData.length)},
+    ]
+
+    console.log(rainIntensityGraphic); //Valores confirmados!
+  
+  },
 
 };
