@@ -310,28 +310,6 @@ export default class Pluvio implements pluvio {
     return (numerator/denominator) ** 2;
   }
 
-  parameterB (): number {
-    const rainIntensityGumbelGraphic = this.rainIntensityGumbel();
-    //let b = this.parameterB(rainIntensityGumbelGraphic[2].data, 10); //9.778499999999816
-    const array = rainIntensityGumbelGraphic[2].data;
-    
-    let b: number = 0, i: number = 9.7 /* = 0 */, current: number = 0, aux: number = 0;
-
-    while(current >= aux) {
-      aux = current;
-      i += 0.0001;
-      let logTplusB: number[] = [];
-      for (let min of this.duration){
-        logTplusB.push(Math.log10(min + b))
-      }
-      current = this.getR2(array.map(value => Math.log10(value)), logTplusB);
-      //this.duration.map(min => Math.log10(min + b)); I don't know why EsLint complains about this syntax!
-      b = i;
-    }
-
-    return b;
-  }
-
   slope(y: number[], x: number[]) {
     //const y = data.map(value => Math.log10(value)); //log(t)
     //const x = this.duration.map(t => Math.log10(t + b)); //log(duration+b)
@@ -362,44 +340,6 @@ export default class Pluvio implements pluvio {
     let denominator = xlessAverage.map(value => value ** 2).reduce((prev, pos) => prev + pos, 0);
 
     return (averageY - ((numerator/denominator)*averageX));
-  }
-
-  parameterA(/*rainIntensity: {t: number, data: number[]}[], b: number*/): number {
-    //console.log(this.parameterA(rainIntensityGumbelGraphic, b));
-    const rainIntensity = this.rainIntensityGumbel();
-    const b = this.parameterB();
-    const logC: number[] = [];
-    
-    rainIntensity.forEach((obj) => {
-      logC.push(this.intercept(obj.data.map(value => Math.log10(value)), this.duration.map(t => Math.log10(t + b))));
-    })
-    
-    const logT = this.t_retorno.map(t => Math.log10(t));
-    return this.slope(logC, logT);
-  }
-
-  parameterK(/*rainIntensity: {t: number, data: number[]}[], b: number*/) {
-    const rainIntensity = this.rainIntensityGumbel();
-    const b = this.parameterB();
-    const logC: number[] = [];
-    
-    rainIntensity.forEach((obj) => {
-      logC.push(this.intercept(obj.data.map(value => Math.log10(value)), this.duration.map(t => Math.log10(t + b))));
-    })
-    
-    const logT = this.t_retorno.map(t => Math.log10(t));
-    return (10 ** (this.intercept(logC, logT))) * 60; //Em horas!
-  }
-
-  parameterC(/*rainIntensity: {t: number, data: number[]}[], b: number*/): number {
-    const rainIntensity = this.rainIntensityGumbel();
-    const b = this.parameterB();
-    const n: number[] = [];
-    
-    rainIntensity.forEach((obj) => {
-      n.push(this.slope(obj.data.map(value => Math.log10(value)), this.duration.map(t => Math.log10(t + b))));
-    })
-    return -this.getAverage(n);
   }
 
   rainIntensity(): {duration: number, data: number[]}[] {
@@ -441,7 +381,20 @@ export default class Pluvio implements pluvio {
     return rainIntensityGumbelGraphic;
   }
 
+  IDF_Equation(): {t: number, data: number[]}[] {
+    const b = this.parameterB();
+    const a =  this.parameterA();
+    const k = this.parameterK();
+    const c_average = this.parameterC();
+    
+    const IDF: {t: number, data: number[]}[] = [];
 
+    this.t_retorno.forEach((t, index) => {
+      IDF[index] = {t: t, data: []};
+      IDF[index].data = this.duration.map((min) => ((k * t ** a) / (min  + b) ** c_average));
+    });
+    return IDF;
+  }
 
   manageData(): void {
     //console.log(rainIntensityGraphic); //Valores confirmados!
@@ -468,27 +421,15 @@ export default class Pluvio implements pluvio {
 
     //console.log(rainIntensityGumbelGraphic); //Valores confirmados!
 
-    console.log('b:', this.parameterB());
+    /* console.log('b:', this.parameterB());
     console.log('a:', this.parameterA());
     console.log('k:', this.parameterK());
     console.log('c_médio:', this.parameterC());
-    console.log('R2', this.parameterR2());
+    console.log('R2', this.parameterR2()); */
+    console.log(this.rainIntensity())
   }
 
-  IDF_Equation(): {t: number, data: number[]}[] {
-    const b = this.parameterB();
-    const a =  this.parameterA();
-    const k = this.parameterK();
-    const c_average = this.parameterC();
-    
-    const IDF: {t: number, data: number[]}[] = [];
 
-    this.t_retorno.forEach((t, index) => {
-      IDF[index] = {t: t, data: []};
-      IDF[index].data = this.duration.map((min) => ((k * t ** a) / (min  + b) ** c_average));
-    });
-    return IDF;
-  }
 
   matrixToArray(matrix: {t: number, data: number[]}[]): number[] {
     let array: number[] = [];
@@ -501,10 +442,72 @@ export default class Pluvio implements pluvio {
     return array;
   }
 
+  parameterB (): number {
+    const rainIntensityGumbelGraphic = this.rainIntensityGumbel();
+    //let b = this.parameterB(rainIntensityGumbelGraphic[2].data, 10); //9.778499999999816
+    const array = rainIntensityGumbelGraphic[2].data;
+    
+    let b: number = 0, i: number = 9.7 /* = 0 */, current: number = 0, aux: number = 0;
+
+    while(current >= aux) {
+      aux = current;
+      i += 0.0001;
+      let logTplusB: number[] = [];
+      for (let min of this.duration){
+        logTplusB.push(Math.log10(min + b))
+      }
+      current = this.getR2(array.map(value => Math.log10(value)), logTplusB);
+      //this.duration.map(min => Math.log10(min + b)); I don't know why EsLint complains about this syntax!
+      b = i;
+    }
+
+    return b;
+  }
+
+  parameterC(/*rainIntensity: {t: number, data: number[]}[], b: number*/): number {
+    const rainIntensity = this.rainIntensityGumbel();
+    const b = this.parameterB();
+    const n: number[] = [];
+    
+    rainIntensity.forEach((obj) => {
+      n.push(this.slope(obj.data.map(value => Math.log10(value)), this.duration.map(t => Math.log10(t + b))));
+    })
+    return -this.getAverage(n);
+  }
+
+  
+  parameterA(/*rainIntensity: {t: number, data: number[]}[], b: number*/): number {
+    //console.log(this.parameterA(rainIntensityGumbelGraphic, b));
+    const rainIntensity = this.rainIntensityGumbel();
+    const b = this.parameterB();
+    const logC: number[] = [];
+    
+    rainIntensity.forEach((obj) => {
+      logC.push(this.intercept(obj.data.map(value => Math.log10(value)), this.duration.map(t => Math.log10(t + b))));
+    })
+    
+    const logT = this.t_retorno.map(t => Math.log10(t));
+    return this.slope(logC, logT);
+  }
+
+  parameterK(/*rainIntensity: {t: number, data: number[]}[], b: number*/) {
+    const rainIntensity = this.rainIntensityGumbel();
+    const b = this.parameterB();
+    const logC: number[] = [];
+    
+    rainIntensity.forEach((obj) => {
+      logC.push(this.intercept(obj.data.map(value => Math.log10(value)), this.duration.map(t => Math.log10(t + b))));
+    })
+    
+    const logT = this.t_retorno.map(t => Math.log10(t));
+    return (10 ** (this.intercept(logC, logT))) * 60; //Em horas!
+  }
+
   parameterR2 (): number {
     const IDFArray = this.matrixToArray(this.IDF_Equation());
     const gumbelArray = this.matrixToArray(this.rainIntensityGumbel());
 
     return this.getR2(IDFArray, gumbelArray);;
   }
+
 };

@@ -4,9 +4,15 @@ import { Link } from "react-router-dom";
 import styled from "styled-components"; */
 import { rainData } from "../../utils/interpolationData";
 import Pluvio from "../../utils/tabela";
+import Table from "../../components/Table";
 
 const cityPluvio = new Pluvio(rainData);
 cityPluvio.manageData();
+
+type data = {
+  duration: number;
+  data: number[];
+}[];
 
 /* const Button = styled(Link)`
   width: 100px;
@@ -23,9 +29,13 @@ cityPluvio.manageData();
 `; */
 function Home() {
   //console.dir(func);
+  const graphic = cityPluvio.rainIntensity();
+  //console.log(cityPluvio.rainIntensityGumbel());
+
   return (
     <div>
       <p>PluvioUFERSA</p>
+      <Table graphic = {graphic} />
     </div>
   )
 }
