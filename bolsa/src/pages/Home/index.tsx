@@ -5,14 +5,8 @@ import styled from "styled-components"; */
 import { rainData } from "../../utils/interpolationData";
 import Pluvio from "../../utils/tabela";
 import Table from "../../components/Table";
-
-const cityPluvio = new Pluvio(rainData);
-cityPluvio.manageData();
-
-type data = {
-  duration: number;
-  data: number[];
-}[];
+import { useState } from "react";
+import Dropdown from "../../components/Dropdown";
 
 /* const Button = styled(Link)`
   width: 100px;
@@ -28,16 +22,15 @@ type data = {
   font-size: 16px;
 `; */
 function Home() {
-  //console.dir(func);
-  const graphic = cityPluvio.rainIntensity();
-  //console.log(cityPluvio.rainIntensityGumbel());
+  const [ cityPluvio, setCityPluvio ] = useState(() => new Pluvio(rainData));
+  const [ graphic, setGraphic ] = useState(() => cityPluvio.rainIntensityGumbel());
 
   return (
-    <div>
-      <p>PluvioUFERSA</p>
-      <Table graphic = {graphic} />
+    <div style={{width:"100vw", height:"100vh", display: "flex", alignItems:"center", justifyContent:"space-around", flexDirection:"column"}}>
+      <Dropdown setGraphic={setGraphic} cityPluvio={cityPluvio} />
+      <Table graphic={graphic} ></Table>
     </div>
-  )
+  );
 }
 
 export default Home;
